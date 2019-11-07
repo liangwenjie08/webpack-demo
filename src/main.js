@@ -8,4 +8,9 @@ function appendHtmlElement() {
   document.body.appendChild(p);
 }
 
+const f = () => {
+  console.log("log");
+};
+
 appendHtmlElement();
+f();

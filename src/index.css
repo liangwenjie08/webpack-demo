@@ -1,4 +1,7 @@
 .p-background {
   background-color: red;
   transform: rotate(45deg);
+  color: white;
+  border: 2px blue solid;
+  font-size: 24px;
 }
