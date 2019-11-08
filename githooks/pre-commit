@@ -1,0 +1,32 @@
+#!/bin/sh
+
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".jsx\{0,1\}$")
+
+if [[ "$STAGED_FILES" = "" ]]; then
+  exit 0
+fi
+
+PASS=true
+
+# 检查有没有安装 eslint
+which eslint &> /dev/null
+if [[ "$?" == 1 ]]; then
+  echo "请先安装eslint：npm install -g eslint"
+  exit 1
+fi
+
+for FILE in $STAGED_FILES
+do
+  eslint "$FILE"
+  if [[ "$?" != 0 ]]; then
+    PASS=false
+    break
+  fi
+done
+
+if $PASS; then
+  exit 0
+else
+  echo "$FILE : 检查不通过，请根据上述信息修改"
+  exit 1
+fi
