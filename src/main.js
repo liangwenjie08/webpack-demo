@@ -9,7 +9,7 @@ function appendHtmlElement() {
 }
 
 const f = () => {
-  console.log("log");
+  console.log("log"); 
 };
 
 appendHtmlElement();
