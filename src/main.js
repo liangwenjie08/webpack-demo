@@ -1,16 +1,18 @@
 import "./index.css";
 import "./index.less";
 
-function appendHtmlElement() {
+function appendPElement() {
   var p = document.createElement("p");
   p.innerText = "bbbb";
   p.classList.add("p-background");
   document.body.appendChild(p);
 }
 
-const f = () => {
-  console.log("log"); 
-};
+appendPElement();
 
-appendHtmlElement();
-f();
+function appendDivElement() {
+  var div = document.createElement("div");
+  div.classList.add("div-class");
+  document.body.appendChild(div);
+}
+appendDivElement();

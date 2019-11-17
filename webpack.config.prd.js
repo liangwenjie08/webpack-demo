@@ -8,12 +8,14 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = {
   mode: "production",   // 模式，production（默认）、development
+  context: path.resolve(__dirname),
   entry: path.resolve(__dirname, "src/main.js"), // 入口
   output: {  // 出口
-    filename: "bundle.[contenthash:8].js",
+    publicPath: "./",
+    filename: "[name].[contenthash:8].js",
+    chunkFilename: '[name].[contenthash:8].js',
     path: path.resolve(__dirname, "dist")
   },
-
   module: {
     rules: [
       {
@@ -23,7 +25,10 @@ module.exports = {
       }, {
         test: /\.css$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {}
+          },
           "css-loader",
           "postcss-loader"
         ]
@@ -33,11 +38,13 @@ module.exports = {
       }, {
         test: /\.(png|svg|jpg|gif)$/,
         use: [
-          "file-loader",
           {
             loader: "url-loader",
             options: {
-              limit: 8192
+              limit: 8192,
+              fallback: "file-loader",
+              name: '[name][hash:6].[ext]',
+              outputPath: "images/"
             }
           }
         ]
@@ -51,8 +58,8 @@ module.exports = {
       template: path.resolve(__dirname, "public/main.html")
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css",
+      filename: "[name].[contenthash:8].css",
+      chunkFilename: '[name].[contenthash:8].css',
       ignoreOrder: false
     })
   ],

@@ -4,8 +4,6 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 //清除上次编译的内容
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-//分离CSS为单独的文件
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: "development",   // 模式，production（默认）、development
@@ -14,7 +12,8 @@ module.exports = {
     filename: "bundle.[name].js",
     path: path.resolve(__dirname, "dist")
   },
-  devtool: "inline-source-map",
+  //源码映射
+  devtool: "cheap-eval-source-map",
   devServer: {
     //从哪里读取资源
     contentBase: path.resolve(__dirname, "dist"),
@@ -27,7 +26,7 @@ module.exports = {
     open: true,
     // hot: true,
     //自动打开浏览器时访问的URL
-    public: "http://localhost:9527",
+    public: "http://localhost:9528",
     //启动时需要导航到的页面
     // openPage: "/",
     clientLogLevel: "none",
@@ -42,13 +41,24 @@ module.exports = {
     rules: [{
       test: /\.css$/,
       use: [
-        MiniCssExtractPlugin.loader,
+        "style-loader",
         "css-loader",
         "postcss-loader"
       ]
     }, {
       test: /\.less$/,
-      use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "less-loader"]
+      use: ["style-loader", "css-loader", "postcss-loader", "less-loader"]
+    }, {
+      test: /\.(png|svg|jpg|gif)$/,
+      use: [
+        "file-loader",
+        {
+          loader: "url-loader",
+          options: {
+            limit: 8192
+          }
+        }
+      ]
     }]
   },
   plugins: [
@@ -58,7 +68,6 @@ module.exports = {
       filename: "main.html",
       template: path.resolve(__dirname, "public/main.html")
     }),
-    new MiniCssExtractPlugin()
     // new webpack.NamedModulesPlugin(),
     // new webpack.HotModuleReplacementPlugin()
   ]

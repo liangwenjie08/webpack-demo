@@ -5,3 +5,8 @@
   border: 2px blue solid;
   font-size: 24px;
 }
+
+.div-class {
+  background-image: url("../images/bg.jpg");
+  height: 1000px;
+}
