@@ -1,5 +1,6 @@
 import "./index.css";
 import "./index.less";
+import _ from "lodash";
 
 function appendPElement() {
   var p = document.createElement("p");
@@ -15,4 +16,5 @@ function appendDivElement() {
   div.classList.add("div-class");
   document.body.appendChild(div);
 }
+
 appendDivElement();

@@ -7,9 +7,12 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
   mode: "development",   // 模式，production（默认）、development
-  entry: path.resolve(__dirname, "src/main.js"), // 入口
+  context: path.resolve(__dirname),
+  entry: path.resolve(__dirname, "src/index.js"), // 入口
   output: {  // 出口
-    filename: "bundle.[name].js",
+    publicPath: "./",
+    filename: "[name].[contenthash:8].js",
+    chunkFilename: "[name].[contenthash:8].js",
     path: path.resolve(__dirname, "dist")
   },
   //源码映射
@@ -38,28 +41,31 @@ module.exports = {
     progress: true
   },
   module: {
-    rules: [{
-      test: /\.css$/,
-      use: [
-        "style-loader",
-        "css-loader",
-        "postcss-loader"
-      ]
-    }, {
-      test: /\.less$/,
-      use: ["style-loader", "css-loader", "postcss-loader", "less-loader"]
-    }, {
-      test: /\.(png|svg|jpg|gif)$/,
-      use: [
-        "file-loader",
-        {
-          loader: "url-loader",
-          options: {
-            limit: 8192
+    rules: [
+      {
+        test: /\.js[x]?$/,
+        exclude: /node_modules/,
+        loader: "babel-loader"
+      }, {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader", "postcss-loader"]
+      }, {
+        test: /\.less$/,
+        use: ["style-loader", "css-loader", "postcss-loader", "less-loader"]
+      }, {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 8192,
+              fallback: "file-loader",
+              name: "[name][hash:6].[ext]",
+              outputPath: "images/"
+            }
           }
-        }
-      ]
-    }]
+        ]
+      }]
   },
   plugins: [
     new CleanWebpackPlugin(),
