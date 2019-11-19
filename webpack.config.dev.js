@@ -21,7 +21,7 @@ module.exports = {
     //从哪里读取资源
     contentBase: path.resolve(__dirname, "dist"),
     //资源路径
-    publicPath: "/",
+    publicPath: "./",
     port: 9528,
     //允许所有外部访问
     host: "0.0.0.0",
@@ -34,7 +34,7 @@ module.exports = {
     // openPage: "/",
     clientLogLevel: "none",
     //入口HTML的名称
-    index: "main.html",
+    index: "index.html",
     noInfo: true,
     overlay: true,
     //是否展示进度条
@@ -68,11 +68,11 @@ module.exports = {
       }]
   },
   plugins: [
-    new CleanWebpackPlugin(),
+    // new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: "Webpack Demo",
-      filename: "main.html",
-      template: path.resolve(__dirname, "public/main.html")
+      filename: "index.html",
+      template: path.resolve(__dirname, "public/index.html")
     }),
     // new webpack.NamedModulesPlugin(),
     // new webpack.HotModuleReplacementPlugin()
